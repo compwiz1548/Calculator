@@ -35,37 +35,33 @@ public class Calculator {
 
             if (c.equals(" ")) continue; //Ignore spaces
 
-            if (numChar == 0 && c.equals("-")) {
+            if (numChar == 0 && c.equals("-")) { //Check for negative first number
                 currentNumber += "-";
                 numChar++;
                 continue;
             } else {
-                if (c.equals(".")) {
+                if (c.equals(".")) { //Grumble, grumble, decimals
                     currentNumber += c;
                     continue;
                 }
                 try {
-                    Integer.parseInt(c);
+                    Integer.parseInt(c); //TODO: Surely there's a better way than going character by character...
                     currentNumber += c;
                 } catch (NumberFormatException e) {
-                    if (firstNumber) {
+                    if (firstNumber) { //Keep track of the first number. Currently how order of operations works.
                         first = Double.parseDouble(currentNumber);
                         firstNumber = false;
-                    } else {
+                    } else { //Create operation since it's not the first number
                         currentOp.setSecondNum(Double.parseDouble(currentNumber));
 
                         if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
-                            pemdas.add(0, currentOp);
-                            //System.out.println("1 - Added: " + currentOp.toString());
-                        } else if (c.equals("*") || c.equals("/")) {
+                            pemdas.add(0, currentOp); //Add multiplication to the top of the list
+                        } else if (c.equals("*") || c.equals("/")) { //Upcoming multiplication. Create operation with old first number, and make this the new first number.
                             Operation temp = new Operation(null, "+", first);
                             pemdas.add(temp);
-                            //System.out.println("3 - Added: " + temp.toString());
                             first = Double.parseDouble(currentNumber);
-                            //System.out.println("Multiplication");
                         } else {
                             pemdas.add(currentOp);
-                            //System.out.println("2 - Added: " + currentOp.toString());
                         }
 
                         //Reset trackers
@@ -81,7 +77,6 @@ public class Calculator {
                         case "/":
                         case "%":
                             currentOp.setOperator(c);
-                            //System.out.println("Set operator as " + c);
                             break;
                     }
                     currentNumber = "";
@@ -90,15 +85,15 @@ public class Calculator {
             }
         }
 
+        //Add leftover currentNumber as operation to the end, unless it's multiplication
         currentOp.setSecondNum(Double.parseDouble(currentNumber));
         if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
             pemdas.add(0, currentOp);
-            //System.out.println("4 - Added: " + currentOp.toString());
         } else {
             pemdas.add(currentOp);
-            //System.out.println("5 - Added: " + currentOp.toString());
         }
 
+        //Add first number as an operation (adding to 0.0) to the beginning of list.
         pemdas.add(0, new Operation(0.0, "+", first));
 
 
