@@ -56,16 +56,16 @@ public class Calculator {
 
                         if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
                             pemdas.add(0, currentOp);
-                            System.out.println("1 - Added: " + currentOp.toString());
+                            //System.out.println("1 - Added: " + currentOp.toString());
                         } else if (c.equals("*") || c.equals("/")) {
                             Operation temp = new Operation(null, "+", first);
                             pemdas.add(temp);
-                            System.out.println("3 - Added: " + temp.toString());
+                            //System.out.println("3 - Added: " + temp.toString());
                             first = Double.parseDouble(currentNumber);
-                            System.out.println("Multiplication");
+                            //System.out.println("Multiplication");
                         } else {
                             pemdas.add(currentOp);
-                            System.out.println("2 - Added: " + currentOp.toString());
+                            //System.out.println("2 - Added: " + currentOp.toString());
                         }
 
                         //Reset trackers
@@ -77,12 +77,11 @@ public class Calculator {
                             currentOp.setOperator("+");
                             break;
                         case "*":
-
                         case "+":
                         case "/":
                         case "%":
                             currentOp.setOperator(c);
-                            System.out.println("Set operator as " + c);
+                            //System.out.println("Set operator as " + c);
                             break;
                     }
                     currentNumber = "";
@@ -94,10 +93,10 @@ public class Calculator {
         currentOp.setSecondNum(Double.parseDouble(currentNumber));
         if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
             pemdas.add(0, currentOp);
-            System.out.println("4 - Added: " + currentOp.toString());
+            //System.out.println("4 - Added: " + currentOp.toString());
         } else {
             pemdas.add(currentOp);
-            System.out.println("5 - Added: " + currentOp.toString());
+            //System.out.println("5 - Added: " + currentOp.toString());
         }
 
         pemdas.add(0, new Operation(0.0, "+", first));
