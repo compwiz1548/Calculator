@@ -55,7 +55,9 @@ public class Calculator {
                     } else {
                         currentOp.setSecondNum(Double.parseDouble(currentNumber));
 
-                        pemdas.add(currentOp);
+                        if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
+                            pemdas.add(0, currentOp);
+                        } else pemdas.add(currentOp);
 
                         //Reset trackers
                         currentOp = new Operation();
@@ -78,7 +80,9 @@ public class Calculator {
         }
 
         currentOp.setSecondNum(Double.parseDouble(currentNumber));
-        pemdas.add(currentOp);
+        if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
+            pemdas.add(0, currentOp);
+        } else pemdas.add(currentOp);
 
         System.out.println("Result: " + parseOperations(pemdas));
     }
