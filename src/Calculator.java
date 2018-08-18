@@ -49,40 +49,59 @@ public class Calculator {
                     currentNumber += c;
                 } catch (NumberFormatException e) {
                     if (firstNumber) {
-                        pemdas.add(new Operation(0.0, "+", Double.parseDouble(currentNumber)));
-                        currentNumber = "";
+                        first = Double.parseDouble(currentNumber);
                         firstNumber = false;
                     } else {
                         currentOp.setSecondNum(Double.parseDouble(currentNumber));
 
                         if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
                             pemdas.add(0, currentOp);
-                        } else pemdas.add(currentOp);
+                            System.out.println("1 - Added: " + currentOp.toString());
+                        } else if (c.equals("*") || c.equals("/")) {
+                            Operation temp = new Operation(null, "+", first);
+                            pemdas.add(temp);
+                            System.out.println("3 - Added: " + temp.toString());
+                            first = Double.parseDouble(currentNumber);
+                            System.out.println("Multiplication");
+                        } else {
+                            pemdas.add(currentOp);
+                            System.out.println("2 - Added: " + currentOp.toString());
+                        }
 
                         //Reset trackers
                         currentOp = new Operation();
-                        currentNumber = "";
                     }
                     switch (c) {
                         case "-":
                             currentNumber += c;
                             currentOp.setOperator("+");
                             break;
-                        case "+":
                         case "*":
+
+                        case "+":
                         case "/":
                         case "%":
                             currentOp.setOperator(c);
+                            System.out.println("Set operator as " + c);
                             break;
                     }
+                    currentNumber = "";
                 }
+                numChar++;
             }
         }
 
         currentOp.setSecondNum(Double.parseDouble(currentNumber));
         if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
             pemdas.add(0, currentOp);
-        } else pemdas.add(currentOp);
+            System.out.println("4 - Added: " + currentOp.toString());
+        } else {
+            pemdas.add(currentOp);
+            System.out.println("5 - Added: " + currentOp.toString());
+        }
+
+        pemdas.add(0, new Operation(0.0, "+", first));
+
 
         System.out.println("Result: " + parseOperations(pemdas));
     }
