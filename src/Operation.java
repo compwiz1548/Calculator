@@ -2,6 +2,7 @@ public class Operation {
 
     private Double firstNum, secondNum;
     private String operator;
+    private Boolean isParenthesis;
 
     public Operation () {
         this.firstNum = null;
@@ -9,10 +10,19 @@ public class Operation {
         this.secondNum = null;
     }
 
-    public Operation (Double firstNum, String operator, Double secondNum) {
+    public Operation (Double firstNum, String operator, Double secondNum, Boolean isParenthesis) {
         this.firstNum = firstNum;
         this.operator = operator;
         this.secondNum = secondNum;
+        this.isParenthesis = isParenthesis;
+    }
+
+    public Boolean getIsParenthesis () {
+        return isParenthesis;
+    }
+
+    public void setIsParenthesis (Boolean isParenthesis) {
+        this.isParenthesis = isParenthesis;
     }
 
     public Double getFirstNum () {

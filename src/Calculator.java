@@ -9,8 +9,12 @@ public class Calculator {
                 op.setFirstNum(finalProduct);
             }
             try {
-                finalProduct = op.process();
-                System.out.println("Processed: " + op.toString());
+                if (op.getIsParenthesis()) {
+                    finalProduct += op.process();
+                } else {
+                    finalProduct = op.process();
+                    System.out.println("Processed: " + op.toString());
+                }
             } catch (Exception e) { //TODO: Specific error reporting
                 System.out.println("Oopsy woopsy! You just did a fucky wucky!");
             }
@@ -57,7 +61,7 @@ public class Calculator {
                         if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
                             pemdas.add(0, currentOp); //Add multiplication to the top of the list
                         } else if (c.equals("*") || c.equals("/")) { //Upcoming multiplication. Create operation with old first number, and make this the new first number.
-                            Operation temp = new Operation(null, "+", first);
+                            Operation temp = new Operation(null, "+", first, false);
                             pemdas.add(temp);
                             first = Double.parseDouble(currentNumber);
                         } else {
@@ -78,6 +82,9 @@ public class Calculator {
                         case "%":
                             currentOp.setOperator(c);
                             break;
+                        case "(":
+                            currentOp.setIsParenthesis(true);
+                            break;
                     }
                     currentNumber = "";
                 }
@@ -94,7 +101,7 @@ public class Calculator {
         }
 
         //Add first number as an operation (adding to 0.0) to the beginning of list.
-        pemdas.add(0, new Operation(0.0, "+", first));
+        pemdas.add(0, new Operation(0.0, "+", first, false));
 
 
         System.out.println("Result: " + parseOperations(pemdas));
