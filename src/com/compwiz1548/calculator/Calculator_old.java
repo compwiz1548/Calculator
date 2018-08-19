@@ -1,16 +1,18 @@
+package com.compwiz1548.calculator;
+
 import java.util.*;
 
-public class Calculator {
+public class Calculator_old {
 
-    private static Double parseOperations (List<Operation> pemdas) {
-        double finalProduct = 0.0;
+    private static OptionalDouble parseOperations (List<Operation> pemdas) {
+        OptionalDouble finalProduct = OptionalDouble.of(0.0);
         for (Operation op : pemdas) {
-            if (op.getFirstNum() == null) {
+            if (!op.getFirstNum().isPresent()) {
                 op.setFirstNum(finalProduct);
             }
             try {
                 if (op.isParenthesis()) {
-                    finalProduct += op.process();
+                    finalProduct = OptionalDouble.of(finalProduct.getAsDouble() + op.process().getAsDouble());
                     System.out.println("Processed: " + op.toString());
                 } else {
                     finalProduct = op.process();

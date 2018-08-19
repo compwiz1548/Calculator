@@ -1,19 +1,19 @@
+package com.compwiz1548.calculator;
+
+import java.util.Optional;
 import java.util.OptionalDouble;
 
 public class Operation {
 
     private OptionalDouble firstNum, secondNum;
-    private OperationType operator;
+    private Optional<OperationType> operator;
     private boolean isParenthesis;
 
     public Operation () {
         this.firstNum = OptionalDouble.empty();
-        this.operator = OperationType.NONE;
-        this.secondNum = OptionalDouble.empty();
-        this.isParenthesis = false;
     }
 
-    public Operation (OptionalDouble firstNum, OperationType operator, OptionalDouble secondNum, boolean isParenthesis) {
+    public Operation (OptionalDouble firstNum, Optional<OperationType> operator, OptionalDouble secondNum, boolean isParenthesis) {
         this.firstNum = firstNum;
         this.operator = operator;
         this.secondNum = secondNum;
@@ -32,8 +32,8 @@ public class Operation {
         return firstNum;
     }
 
-    public void setFirstNum (Double firstNum) {
-        this.firstNum = OptionalDouble.of(firstNum);
+    public void setFirstNum (OptionalDouble firstNum) {
+        this.firstNum = firstNum;
     }
 
     public OptionalDouble getSecondNum () {
@@ -44,11 +44,11 @@ public class Operation {
         this.secondNum = secondNum;
     }
 
-    public OperationType getOperator () {
+    public Optional<OperationType> getOperator () {
         return operator;
     }
 
-    public void setOperator (OperationType operator) {
+    public void setOperator (Optional<OperationType> operator) {
         this.operator = operator;
     }
 
