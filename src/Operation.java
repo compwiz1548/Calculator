@@ -3,17 +3,17 @@ import java.util.OptionalDouble;
 public class Operation {
 
     private OptionalDouble firstNum, secondNum;
-    private ops operator;
+    private OperationType operator;
     private boolean isParenthesis;
 
     public Operation () {
         this.firstNum = OptionalDouble.empty();
-        this.operator = ops.NONE;
+        this.operator = OperationType.NONE;
         this.secondNum = OptionalDouble.empty();
         this.isParenthesis = false;
     }
 
-    public Operation (OptionalDouble firstNum, ops operator, OptionalDouble secondNum, boolean isParenthesis) {
+    public Operation (OptionalDouble firstNum, OperationType operator, OptionalDouble secondNum, boolean isParenthesis) {
         this.firstNum = firstNum;
         this.operator = operator;
         this.secondNum = secondNum;
@@ -44,11 +44,11 @@ public class Operation {
         this.secondNum = secondNum;
     }
 
-    public ops getOperator () {
+    public OperationType getOperator () {
         return operator;
     }
 
-    public void setOperator (ops operator) {
+    public void setOperator (OperationType operator) {
         this.operator = operator;
     }
 
