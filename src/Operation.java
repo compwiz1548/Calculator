@@ -2,22 +2,23 @@ public class Operation {
 
     private Double firstNum, secondNum;
     private String operator;
-    private Boolean isParenthesis;
+    private boolean isParenthesis;
 
     public Operation () {
         this.firstNum = null;
         this.operator = null;
         this.secondNum = null;
+        this.isParenthesis = false;
     }
 
-    public Operation (Double firstNum, String operator, Double secondNum, Boolean isParenthesis) {
+    public Operation (Double firstNum, String operator, Double secondNum, boolean isParenthesis) {
         this.firstNum = firstNum;
         this.operator = operator;
         this.secondNum = secondNum;
         this.isParenthesis = isParenthesis;
     }
 
-    public Boolean getIsParenthesis () {
+    public boolean isParenthesis () {
         return isParenthesis;
     }
 
@@ -51,7 +52,7 @@ public class Operation {
 
     @Override
     public String toString () {
-        return this.firstNum + this.operator + this.secondNum;
+        return this.isParenthesis ? "(" + this.firstNum + this.operator + this.secondNum + ")" : this.firstNum + this.operator + this.secondNum;
     }
 
     public Double process () {

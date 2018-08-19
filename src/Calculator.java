@@ -9,8 +9,9 @@ public class Calculator {
                 op.setFirstNum(finalProduct);
             }
             try {
-                if (op.getIsParenthesis()) {
+                if (op.isParenthesis()) {
                     finalProduct += op.process();
+                    System.out.println("Processed: " + op.toString());
                 } else {
                     finalProduct = op.process();
                     System.out.println("Processed: " + op.toString());
@@ -31,77 +32,60 @@ public class Calculator {
         System.out.println("Calculating... This won't time a while!");
         String currentNumber = "";
         Operation currentOp = new Operation();
-        boolean firstNumber = true;
-        Double first = 0.0;
-        int numChar = 0;
 
         for (String c : equation) {
 
             if (c.equals(" ")) continue; //Ignore spaces
 
-            if (numChar == 0 && c.equals("-")) { //Check for negative first number
-                currentNumber += "-";
-                numChar++;
+            if (c.equals("-") || c.equals(".")) { //Check for negative number or decimal
+                currentNumber = c;
+                currentOp.setOperator("+");
                 continue;
             } else {
-                if (c.equals(".")) { //Grumble, grumble, decimals
-                    currentNumber += c;
-                    continue;
-                }
                 try {
-                    Integer.parseInt(c); //TODO: Surely there's a better way than going character by character...
+                    Integer.parseInt(c);
                     currentNumber += c;
                 } catch (NumberFormatException e) {
-                    if (firstNumber) { //Keep track of the first number. Currently how order of operations works.
-                        first = Double.parseDouble(currentNumber);
-                        firstNumber = false;
-                    } else { //Create operation since it's not the first number
+                    if (currentOp.isParenthesis()) {
                         currentOp.setSecondNum(Double.parseDouble(currentNumber));
-
-                        if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
-                            pemdas.add(0, currentOp); //Add multiplication to the top of the list
-                        } else if (c.equals("*") || c.equals("/")) { //Upcoming multiplication. Create operation with old first number, and make this the new first number.
-                            Operation temp = new Operation(null, "+", first, false);
-                            pemdas.add(temp);
-                            first = Double.parseDouble(currentNumber);
-                        } else {
-                            pemdas.add(currentOp);
-                        }
-
-                        //Reset trackers
-                        currentOp = new Operation();
+                        pemdas.add(currentOp);
+                        currentOp = new Operation(null, c, null, false);
+                        currentNumber = "";
+                        continue;
                     }
+
                     switch (c) {
-                        case "-":
-                            currentNumber += c;
-                            currentOp.setOperator("+");
-                            break;
                         case "*":
-                        case "+":
                         case "/":
                         case "%":
+                            currentOp.setFirstNum(Double.parseDouble(currentNumber));
                             currentOp.setOperator(c);
+                            currentOp.setIsParenthesis(true);
+                            break;
+                        case "+":
+                            currentOp.setOperator(c);
+                            currentOp.setSecondNum(Double.parseDouble(currentNumber));
+                            pemdas.add(currentOp);
+                            currentOp = new Operation(null, c, null, false);
                             break;
                         case "(":
                             currentOp.setIsParenthesis(true);
                             break;
+                        case ")":
+                            currentOp.setSecondNum(Double.parseDouble(currentNumber));
+                            pemdas.add(0,currentOp);
+                            currentOp = new Operation();
+                            break;
                     }
+
                     currentNumber = "";
                 }
-                numChar++;
             }
         }
 
-        //Add leftover currentNumber as operation to the end, unless it's multiplication
+        //Add leftover currentNumber as operation to the end
         currentOp.setSecondNum(Double.parseDouble(currentNumber));
-        if (currentOp.getOperator().equals("*") || currentOp.getOperator().equals("/")) {
-            pemdas.add(0, currentOp);
-        } else {
-            pemdas.add(currentOp);
-        }
-
-        //Add first number as an operation (adding to 0.0) to the beginning of list.
-        pemdas.add(0, new Operation(0.0, "+", first, false));
+        pemdas.add(currentOp);
 
 
         System.out.println("Result: " + parseOperations(pemdas));
