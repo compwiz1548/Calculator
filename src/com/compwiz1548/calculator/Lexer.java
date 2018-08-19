@@ -1,9 +1,9 @@
 package com.compwiz1548.calculator;
 
-import java.util.Optional;
+import java.util.*;
 
 public class Lexer {
-    public static Optional<OperationType> isOperator(char c) {
+    private static Optional<OperationType> isOperator(char c) {
         switch (c) {
             case '+': return Optional.of(OperationType.ADD);
             case '-': return Optional.of(OperationType.SUB);
@@ -21,7 +21,23 @@ public class Lexer {
         }
     }
 
-    public boolean isNumber(char c) {
+    private static boolean isNumber(char c) {
         return Character.isDigit(c);
+    }
+
+    public static List<Operation> parseEquation(Character[] equation) {
+        List<Operation> opsList = new ArrayList<>();
+
+        StringBuilder currentNumber = new StringBuilder();
+
+        Operation currentOp;
+
+        ListIterator<Character> iterator = Arrays.asList(equation).listIterator();
+
+        char c = iterator.next();
+
+       
+
+        return opsList;
     }
 }

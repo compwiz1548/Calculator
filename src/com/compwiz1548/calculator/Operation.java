@@ -11,6 +11,9 @@ public class Operation {
 
     public Operation () {
         this.firstNum = OptionalDouble.empty();
+        this.operator = Optional.empty();
+        this.secondNum = OptionalDouble.empty();
+        this.isParenthesis = false;
     }
 
     public Operation (OptionalDouble firstNum, Optional<OperationType> operator, OptionalDouble secondNum, boolean isParenthesis) {
@@ -57,21 +60,21 @@ public class Operation {
         return this.isParenthesis ? "(" + this.firstNum.toString() + this.operator + this.secondNum.toString() + ")" : this.firstNum.toString() + this.operator + this.secondNum.toString();
     }
 
-    public OptionalDouble process () {
-        if (!firstNum.isPresent() || !secondNum.isPresent()) {
+    public double process () {
+        if (!firstNum.isPresent() || !operator.isPresent() || !secondNum.isPresent()) {
             System.out.println("Oopsy woopsy! You just did a fucky wucky!");
         } else {
-            switch (operator) {
+            switch (operator.get()) {
                 case ADD:
-                    return OptionalDouble.of(firstNum.getAsDouble() + secondNum.getAsDouble());
+                    return firstNum.getAsDouble() + secondNum.getAsDouble();
                 case DIV:
-                    return OptionalDouble.of(firstNum.getAsDouble() / secondNum.getAsDouble());
+                    return firstNum.getAsDouble() / secondNum.getAsDouble();
                 case MULT:
-                    return OptionalDouble.of(firstNum.getAsDouble() * secondNum.getAsDouble());
+                    return firstNum.getAsDouble() * secondNum.getAsDouble();
                 case MOD:
-                    return OptionalDouble.of(firstNum.getAsDouble() % secondNum.getAsDouble());
+                    return firstNum.getAsDouble() % secondNum.getAsDouble();
             }
         }
-        return OptionalDouble.empty();
+        return 0.0;
     }
 }
