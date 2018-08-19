@@ -1,20 +1,19 @@
 import java.util.OptionalDouble;
 
-
 public class Operation {
 
     private OptionalDouble firstNum, secondNum;
-    private String operator;
+    private ops operator;
     private boolean isParenthesis;
 
     public Operation () {
         this.firstNum = OptionalDouble.empty();
-        this.operator = "";
+        this.operator = ops.NONE;
         this.secondNum = OptionalDouble.empty();
         this.isParenthesis = false;
     }
 
-    public Operation (OptionalDouble firstNum, String operator, OptionalDouble secondNum, boolean isParenthesis) {
+    public Operation (OptionalDouble firstNum, ops operator, OptionalDouble secondNum, boolean isParenthesis) {
         this.firstNum = firstNum;
         this.operator = operator;
         this.secondNum = secondNum;
@@ -29,8 +28,8 @@ public class Operation {
         this.isParenthesis = isParenthesis;
     }
 
-    public double getFirstNum () {
-        return firstNum.getAsDouble();
+    public OptionalDouble getFirstNum () {
+        return firstNum;
     }
 
     public void setFirstNum (Double firstNum) {
@@ -45,31 +44,34 @@ public class Operation {
         this.secondNum = secondNum;
     }
 
-    public String getOperator () {
+    public ops getOperator () {
         return operator;
     }
 
-    public void setOperator (String operator) {
+    public void setOperator (ops operator) {
         this.operator = operator;
     }
 
     @Override
     public String toString () {
-        return this.isParenthesis ? "(" + this.firstNum + this.operator + this.secondNum + ")" : this.firstNum + this.operator + this.secondNum;
+        return this.isParenthesis ? "(" + this.firstNum.toString() + this.operator + this.secondNum.toString() + ")" : this.firstNum.toString() + this.operator + this.secondNum.toString();
     }
 
     public OptionalDouble process () {
-        switch (operator) {
-            case "+":
-                return OptionalDouble.of(firstNum.getAsDouble() + secondNum.getAsDouble());
-            case "/":
-                return OptionalDouble.of(firstNum.getAsDouble() / secondNum.getAsDouble());
-            case "*":
-                return OptionalDouble.of(firstNum.getAsDouble() * secondNum.getAsDouble());
-            case "%":
-                return OptionalDouble.of(firstNum.getAsDouble() % secondNum.getAsDouble());
-            default:
-                return OptionalDouble.empty();
+        if (!firstNum.isPresent() || !secondNum.isPresent()) {
+            System.out.println("Oopsy woopsy! You just did a fucky wucky!");
+        } else {
+            switch (operator) {
+                case ADD:
+                    return OptionalDouble.of(firstNum.getAsDouble() + secondNum.getAsDouble());
+                case DIV:
+                    return OptionalDouble.of(firstNum.getAsDouble() / secondNum.getAsDouble());
+                case MULT:
+                    return OptionalDouble.of(firstNum.getAsDouble() * secondNum.getAsDouble());
+                case MOD:
+                    return OptionalDouble.of(firstNum.getAsDouble() % secondNum.getAsDouble());
+            }
         }
+        return OptionalDouble.empty();
     }
 }
